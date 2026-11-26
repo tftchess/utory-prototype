@@ -1,0 +1,47 @@
+name: Prototype Pages
+
+on:
+  push:
+    branches: [prototype]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: prototype-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/prototype'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - run: npm ci
+      - name: TypeScript 검사
+        run: ./node_modules/.bin/tsc -b
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/prototype'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
