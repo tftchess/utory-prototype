@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.npm-cache/
+.verification/
+*.log
+*.local
+.env
+.env.*
+.npmrc
+*.pem
+*.p12
+*.pfx
+*.key
+*.bak

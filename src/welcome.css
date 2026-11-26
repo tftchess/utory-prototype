@@ -1,0 +1,97 @@
+.welcome-stage {
+  background: linear-gradient(#fffdfa, #fcf8f1);
+}
+
+.welcome-screen {
+  width: min(100%, 34rem);
+  margin-inline: auto;
+  min-height: 100svh;
+  padding: max(24px, env(safe-area-inset-top)) clamp(24px, 7vw, 48px)
+    calc(clamp(32px, 7svh, 72px) + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-rows: minmax(min-content, 1.25fr) auto minmax(36px, .85fr) auto;
+  justify-items: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.yutori-run {
+  align-self: end;
+  width: min(100%, 420px, 66svh);
+  height: auto;
+  aspect-ratio: 360 / 235;
+  margin-bottom: clamp(22px, 6svh, 60px);
+}
+
+.welcome-screen h1 {
+  text-align: center;
+  font-size: clamp(1.45rem, 4.9vw, 1.95rem);
+  line-height: 1.55;
+  font-weight: 600;
+  letter-spacing: -.048em;
+  color: #513d31;
+  overflow-wrap: anywhere;
+}
+.welcome-screen h1 span { display: inline-block; max-width: 100%; }
+.welcome-start {
+  grid-row: 4;
+  width: min(100%, 25rem);
+  min-height: 56px;
+  padding: .95em 1.4em;
+  border-radius: 18px;
+  background: #785943;
+  color: #fffaf3;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px #6d4f3514;
+}
+.welcome-start:hover { background: #694c38; }
+.welcome-start:active { background: #593f30; transform: translateY(1px); }
+.welcome-start:focus-visible { outline: 3px solid #71503c; outline-offset: 4px; }
+
+/* All pivots are in the SVG's fixed 360 × 235 coordinate system. */
+.run-turn { transform-origin: 180px 140px; }
+.run-head { transform-origin: 180px 137px; }
+.run-leg.run-near { transform-origin: 167px 172px; }
+.run-leg.run-far { transform-origin: 187px 170px; }
+.run-left-ear { transform-origin: 152px 72px; }
+.run-right-ear { transform-origin: 211px 74px; }
+.run-tail { transform-origin: 153px 172px; }
+.run-arm { transform-origin: 176px 149px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .run-travel { animation: yutori-cross 5.6s ease-in-out infinite; }
+  .run-turn { animation: yutori-turn 5.6s linear infinite; }
+  .run-body { animation: yutori-bounce .39s ease-in-out infinite alternate; }
+  .run-leg { animation: yutori-stride .39s ease-in-out infinite alternate; }
+  .run-leg.run-far { animation-direction: alternate-reverse; }
+  .run-tail, .run-ear, .run-head, .run-arm {
+    animation: yutori-follow .39s ease-in-out infinite alternate;
+  }
+  .run-tail { --swing: 12deg; animation-delay: -.12s; }
+  .run-ear { --swing: 4deg; animation-delay: -.08s; }
+  .run-right-ear { animation-delay: -.14s; }
+  .run-head { --swing: 1.8deg; }
+  .run-arm { --swing: 6deg; animation-direction: alternate-reverse; }
+}
+
+@keyframes yutori-cross {
+  0%, 100% { transform: translateX(-60px); }
+  50% { transform: translateX(60px); }
+}
+@keyframes yutori-turn {
+  0%, 48%, 100% { transform: scaleX(1); }
+  50%, 98% { transform: scaleX(-1); }
+}
+@keyframes yutori-bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-5px); }
+}
+@keyframes yutori-stride {
+  from { transform: rotate(-27deg); }
+  to { transform: rotate(27deg); }
+}
+@keyframes yutori-follow {
+  from { transform: rotate(calc(-1 * var(--swing))); }
+  to { transform: rotate(var(--swing)); }
+}
